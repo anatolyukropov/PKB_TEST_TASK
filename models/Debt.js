@@ -11,7 +11,6 @@ const Debt = {
     },
     getById : function(id) {
         return new Promise(async (resolve, reject) => {
-            console.log('тут')
             resolve(await pool.query(`SELECT * FROM debt WHERE id_debt = '${id}'`))
         }).catch(errHandler)
     },
@@ -27,14 +26,15 @@ const Debt = {
     },
     getPortfolioEfficiency : function() {
         return new Promise(async (resolve, reject) => {
-            let debtSum = await pool.query(`SELECT Portfolio_name, SUM(Debt_sum) AS Portfolio_debt FROM debt RIGHT JOIN portfolio using(id_portfolio) GROUP BY id_portfolio ORDER BY Portfolio_name`),
-                paymentSum = await pool.query(`SELECT Portfolio_name, SUM(Payment_sum) AS Payment_sum FROM payment INNER JOIN debt using(id_debt) RIGHT JOIN portfolio using(id_portfolio) GROUP BY Portfolio_name ORDER BY Portfolio_name`),
-                rez = [];
-            for (let i=0; i < debtSum.length; i++) {
-                console.log('paymentSum[i].Payment_sum', paymentSum[i].Payment_sum)
-                console.log('debtSum[i].portfolio_debt', debtSum[i].Portfolio_debt)
-                rez.push({Portfolio_name : debtSum[i].Portfolio_name, Efficiency : (paymentSum[i].Payment_sum/debtSum[i].Portfolio_debt)*100 })
-            }
+            let rez = await pool.query(`SELECT Portfolio_name, sum(Portfolio_payment)/sum(Debt_sum)*100 AS Efficienty
+            from (
+                SELECT id_portfolio, id_debt, Debt_sum, SUM(Payment_sum) AS Portfolio_payment
+            FROM pkb.debt
+            left JOIN pkb.payment using(id_debt)
+            GROUP BY id_debt, id_portfolio
+        ) as one
+            RIGHT JOIN pkb.portfolio using(id_portfolio)
+            GROUP BY id_portfolio`);
             resolve(rez)
         }).catch(errHandler)
     },
