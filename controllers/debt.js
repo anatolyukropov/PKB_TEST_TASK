@@ -17,7 +17,7 @@ router.get('/all', async (req, res) => {
     });
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/id/:id', async (req, res) => {
     let rez = await Debt.getById(req.params.id);
     res.status(200).json({
         success : true,
@@ -27,6 +27,21 @@ router.get('/:id', async (req, res) => {
 
 router.get('/debtor/:sum', async (req, res) => {
     let rez = await Debt.getDebtor(req.params.sum);
+    res.status(200).json({
+        success : true,
+        msg :  rez
+    });
+});
+
+router.get('/debtWithoutPayment/', async (req, res) => {
+    let rez = await Debt.getDebtWithoutPayment();
+    res.status(200).json({
+        success : true,
+        msg :  rez
+    });
+});
+router.get('/getPortfolioEfficiency/', async (req, res) => {
+    let rez = await Debt.getPortfolioEfficiency();
     res.status(200).json({
         success : true,
         msg :  rez

@@ -11,7 +11,7 @@
             :items="items"
             class="elevation-1"
             @input.native="update($event)"
-            calculate-widths
+            loading="true"
         >
             <template v-slot:item.FIO="props">
                 <textarea

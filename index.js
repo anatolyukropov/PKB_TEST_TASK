@@ -44,7 +44,7 @@ app.use('/api/portfolio', portfolio);
 app.use('/api/calendar', calendar);
 app.use('/api/payment', payment);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 //синхронизируем sequalize и запускаем сервер
 app.listen(PORT, () => {

@@ -5,6 +5,7 @@
                 :headers="headers"
                 :items="items"
                 class="elevation-1"
+                loading="true"
         >
         </v-data-table>
     </div>
