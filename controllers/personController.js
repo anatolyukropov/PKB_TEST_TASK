@@ -25,4 +25,12 @@ router.get('/:id', async (req, res) => {
     });
 });
 
+router.post('/update/:id/fio/:fio', async (req, res) => {
+    let rez = await Person.update(req.params.fio, req.params.id);
+    res.status(200).json({
+        success : true,
+        msg :  rez
+    });
+});
+
 module.exports = router

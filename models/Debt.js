@@ -6,7 +6,7 @@ const pool = require('../config/mysql.js'),
 const Debt = {
     get: function(query) {
         return new Promise(async (resolve, reject) => {
-            resolve(await pool.query('SELECT * FROM debt'))
+            resolve(await pool.query('SELECT *  FROM debt INNER JOIN person using(id_person) INNER JOIN portfolio using(id_portfolio)' ))
         }).catch(errHandler)
     },
     getById : function(id) {

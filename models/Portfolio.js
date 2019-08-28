@@ -6,7 +6,7 @@ const pool = require('../config/mysql.js'),
 const Portfolio = {
     get: function() {
         return new Promise(async (resolve, reject) => {
-            resolve(await pool.query('SELECT * FROM portfolio'))
+            resolve(await pool.query('SELECT *, DATE_FORMAT(Sign_date,\'%d.%m.%Y\') AS Sign_date, DATE_FORMAT(End_date,\'%d.%m.%Y\') AS End_date   FROM portfolio'))
         }).catch(errHandler)
     },
     getById : function(id) {

@@ -1,122 +1,114 @@
-<template>
-    <VDataTable
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+    <div class="wrapper">
+        <transition name="fade">
+            <div class="save-text" ref="fade">
+                <p>Сохранено</p>
+            </div>
+        </transition>
+        <h1 class="table-title">Клиент</h1>
+        <v-data-table
             :headers="headers"
-            :items="desserts"
-            :items-per-page="5"
+            :items="items"
             class="elevation-1"
-    ></VDataTable>
+            @input.native="update($event)"
+            calculate-widths
+        >
+            <template v-slot:item.FIO="props">
+                <textarea
+                    class="slot-FIO__text"
+                    v-model="props.item.FIO"
+                    :id="props.item.id_person"
+                ></textarea>
+            </template>
+        </v-data-table>
+    </div>
 </template>
 
 <script>
-    import { VDataTable} from 'vuetify/lib'
-
-    export default {
-        name: "Person",
-        components: {
-            VDataTable
-        },
-        data () {
-            return {
-                headers: [
-                    {
-                        text: 'Dessert (100g serving)',
-                        align: 'left',
-                        sortable: false,
-                        value: 'name',
-                    },
-                    { text: 'Calories', value: 'calories' },
-                    { text: 'Fat (g)', value: 'fat' },
-                    { text: 'Carbs (g)', value: 'carbs' },
-                    { text: 'Protein (g)', value: 'protein' },
-                    { text: 'Iron (%)', value: 'iron' },
-                ],
-                desserts: [
-                    {
-                        name: 'Frozen Yogurt',
-                        calories: 159,
-                        fat: 6.0,
-                        carbs: 24,
-                        protein: 4.0,
-                        iron: '1%',
-                    },
-                    {
-                        name: 'Ice cream sandwich',
-                        calories: 237,
-                        fat: 9.0,
-                        carbs: 37,
-                        protein: 4.3,
-                        iron: '1%',
-                    },
-                    {
-                        name: 'Eclair',
-                        calories: 262,
-                        fat: 16.0,
-                        carbs: 23,
-                        protein: 6.0,
-                        iron: '7%',
-                    },
-                    {
-                        name: 'Cupcake',
-                        calories: 305,
-                        fat: 3.7,
-                        carbs: 67,
-                        protein: 4.3,
-                        iron: '8%',
-                    },
-                    {
-                        name: 'Gingerbread',
-                        calories: 356,
-                        fat: 16.0,
-                        carbs: 49,
-                        protein: 3.9,
-                        iron: '16%',
-                    },
-                    {
-                        name: 'Jelly bean',
-                        calories: 375,
-                        fat: 0.0,
-                        carbs: 94,
-                        protein: 0.0,
-                        iron: '0%',
-                    },
-                    {
-                        name: 'Lollipop',
-                        calories: 392,
-                        fat: 0.2,
-                        carbs: 98,
-                        protein: 0,
-                        iron: '2%',
-                    },
-                    {
-                        name: 'Honeycomb',
-                        calories: 408,
-                        fat: 3.2,
-                        carbs: 87,
-                        protein: 6.5,
-                        iron: '45%',
-                    },
-                    {
-                        name: 'Donut',
-                        calories: 452,
-                        fat: 25.0,
-                        carbs: 51,
-                        protein: 4.9,
-                        iron: '22%',
-                    },
-                    {
-                        name: 'KitKat',
-                        calories: 518,
-                        fat: 26.0,
-                        carbs: 65,
-                        protein: 7,
-                        iron: '6%',
-                    },
-                ],
+export default {
+    name: 'Person',
+    data() {
+        return {
+            show : false,
+            headers: [
+                {
+                    text: 'id',
+                    align: 'center',
+                    sortable: false,
+                    value: 'id_person',
+                    width : '50%'
+                },
+                { text: 'ФИО', value: 'FIO', align: 'center', sortable: true, width : '50%' },
+            ],
+            items: [],
+        }
+    },
+    async created() {
+        let personData = await this.$http.get(`/api/person/all`)
+        personData.data.success
+            ? (this.items = personData.data.msg)
+            : (this.items = this.items)
+    },
+    methods: {
+        update: _.debounce(function(e) {
+                this.save(e.target.value, e.target.id)
+        }, 2000),
+        save: async function(value, id) {
+            let res = await this.$http.post(
+                `/api/person/update/${id}/fio/${value}`
+            );
+            if (res.data.success) {
+                if (this.$refs.fade.classList.contains('save-text_fade')) {
+                    let elm = document.getElementsByClassName('save-text')[0],
+                        newone = elm.cloneNode(true);
+                    elm.parentNode.replaceChild(newone, elm);
+                } else {
+                    this.$refs.fade.classList.toggle('save-text_fade');
+                }
             }
         },
-    }
+    },
+}
 </script>
 
 <style scoped>
+.slot-FIO__text:focus {
+    outline: none !important;
+}
+.slot-FIO__text {
+    resize: none;
+    line-height: 20px;
+    height: 20px;
+    width: auto;
+}
+.table-title {
+    text-align: center;
+}
+.wrapper {
+    position: relative;
+}
+.save-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 100px;
+    margin-left: -100px;
+    background-color: white;
+    text-align: center;
+    font-size: 20px;
+    line-height: 100px;
+    opacity: 0;
+}
+.save-text_fade {
+    animation: fadeInAndOut  2s  ease-in-out;
+    animation-fill-mode: backwards;
+}
+
+@keyframes fadeInAndOut {
+    from {opacity: 0;}
+    50% {opacity: 1;}
+    to {opacity: 0;}
+}
 
 </style>

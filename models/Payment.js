@@ -6,7 +6,7 @@ const pool = require('../config/mysql.js'),
 const Payment = {
     get: function(query) {
         return new Promise(async (resolve, reject) => {
-            resolve(await pool.query('SELECT * FROM payment'))
+            resolve(await pool.query('SELECT *, DATE_FORMAT(Date,\'%d.%m.%Y\') AS Date FROM payment'))
         }).catch(errHandler)
     },
     getById : function(id) {
