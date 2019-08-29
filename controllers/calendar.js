@@ -13,7 +13,7 @@ router.get('/all', async (req, res) => {
     let rez = await Calendar.get();
     res.status(200).json({
         success : true,
-        msg :  rez
+        response :  rez
     });
 });
 

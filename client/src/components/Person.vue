@@ -46,7 +46,7 @@ export default {
     async created() {
         let personData = await this.$http.get(`/api/person/all`)
         personData.data.success
-            ? (this.items = personData.data.msg)
+            ? (this.items = personData.data.response)
             : (this.items = this.items)
     },
     methods: {

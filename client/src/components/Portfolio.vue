@@ -34,7 +34,7 @@
         async created() {
             let portfolio = await this.$http.get(`/api/portfolio/all`)
             portfolio.data.success
-                ? (this.items = portfolio.data.msg)
+                ? (this.items = portfolio.data.response)
                 : (this.items = this.items)
         },
     }

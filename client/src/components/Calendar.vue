@@ -31,7 +31,7 @@
         async created() {
             let payment = await this.$http.get(`/api/calendar/all`)
             payment.data.success
-                ? (this.items = payment.data.msg)
+                ? (this.items = payment.data.response)
                 : (this.items = this.items)
         },
     }
