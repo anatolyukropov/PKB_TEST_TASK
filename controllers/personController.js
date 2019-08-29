@@ -33,4 +33,12 @@ router.post('/update/:id/fio/:fio', async (req, res) => {
     });
 });
 
+router.get('/debtor/:sum', async (req, res) => {
+    let rez = await Person.getDebtor(req.params.sum);
+    res.status(200).json({
+        success : true,
+        response :  rez
+    });
+});
+
 module.exports = router

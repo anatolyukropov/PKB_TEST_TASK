@@ -25,14 +25,6 @@ router.get('/id/:id', async (req, res) => {
     });
 });
 
-router.get('/debtor/:sum', async (req, res) => {
-    let rez = await Debt.getDebtor(req.params.sum);
-    res.status(200).json({
-        success : true,
-        response :  rez
-    });
-});
-
 router.get('/debtWithoutPayment/', async (req, res) => {
     let rez = await Debt.getDebtWithoutPayment();
     res.status(200).json({

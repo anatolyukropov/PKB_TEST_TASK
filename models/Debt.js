@@ -14,11 +14,6 @@ const Debt = {
             resolve(await pool.query(`SELECT * FROM debt WHERE id_debt = '${id}'`))
         }).catch(errHandler)
     },
-    getDebtor : function(sum) {
-        return new Promise(async (resolve, reject) => {
-            resolve(await pool.query(`SELECT FIO, SUM(Debt_sum) AS user_debt FROM debt INNER JOIN person using(id_person) GROUP BY id_person HAVING SUM(Debt_sum) > ${sum}`))
-        }).catch(errHandler)
-    },
     getDebtWithoutPayment : function() {
         return new Promise(async (resolve, reject) => {
             resolve(await pool.query(`SELECT * FROM debt LEFT OUTER JOIN payment ON debt.id_debt = payment.id_debt WHERE payment.id_debt IS null`))

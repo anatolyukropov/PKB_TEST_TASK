@@ -18,7 +18,12 @@ const Person = {
         return new Promise(async (resolve, reject) => {
             resolve(await pool.query(`UPDATE person SET FIO = '${value}' WHERE id_person = '${id}'`))
         }).catch(errHandler)
-    }
+    },
+    getDebtor : function(sum) {
+        return new Promise(async (resolve, reject) => {
+            resolve(await pool.query(`SELECT FIO, SUM(Debt_sum) AS user_debt FROM debt INNER JOIN person using(id_person) GROUP BY id_person HAVING SUM(Debt_sum) > ${sum}`))
+        }).catch(errHandler)
+    },
 }
 
 module.exports = Person
