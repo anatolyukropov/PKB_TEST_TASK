@@ -17,12 +17,21 @@ router.get('/all', async (req, res) => {
     });
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/id/:id', async (req, res) => {
     let rez = await Portfolio.getById(req.params.id);
     res.status(200).json({
         success : true,
         response :  rez
     });
 });
+
+router.get('/sumByMonth', async (req, res) => {
+    let rez = await Portfolio.getSumByMonth();
+    res.status(200).json({
+        success : true,
+        response :  rez
+    });
+});
+
 
 module.exports = router
