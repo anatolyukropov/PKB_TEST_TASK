@@ -10,7 +10,11 @@
 </p>
 
 <p>Запрос для получения ответа по Требованию № 3
-<code>http://localhost:5001/api/debt/getPortfolioEfficiency</code>
+<code>http://localhost:5001/api/debt/portfolioEfficiency</code>
+</p>
+
+<p>Запрос для получения ответа по Требованию № 4
+<code>http://localhost:5001/api/portfolio/monthEfficiency</code>
 </p>
 
 <p>Запрос для получения ответа по Требованию № 5

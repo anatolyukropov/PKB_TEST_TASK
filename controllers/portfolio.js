@@ -33,5 +33,13 @@ router.get('/sumByMonth', async (req, res) => {
     });
 });
 
+router.get('/monthEfficiency', async (req, res) => {
+    let rez = await Portfolio.getMonthEfficiency();
+    res.status(200).json({
+        success : true,
+        response :  rez
+    });
+});
+
 
 module.exports = router

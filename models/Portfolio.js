@@ -27,6 +27,24 @@ const Portfolio = {
                 GROUP BY Cal_date `))
         }).catch(errHandler)
     },
+    getMonthEfficiency : function(query) {
+        return new Promise(async (resolve, reject) => {
+            resolve(await pool.query(
+        `select DATE_FORMAT(Cal_date,'%d.%m.%Y') AS Cal_date, sum(Payment_sum)/sum(Debt_sum)*100 AS Efficienty from (	
+	         select Cal_date, sum(Debt_sum) as Debt_sum from calendar  
+	         join portfolio left join debt using(id_portfolio)
+             where date_format(Cal_date, '%Y-%m') BETWEEN date_format(Sign_date, '%Y-%m') AND date_format(End_date, '%Y-%m')
+	         GROUP BY Cal_date
+        ) as one left join
+        (
+	        select Cal_date, sum(Payment_sum) as Payment_sum from calendar  
+	        join payment 
+            where date_format(Cal_date, '%Y-%m') = date_format(Date, '%Y-%m')
+	        GROUP BY Cal_date
+        ) as two using(Cal_date)
+        group by Cal_date`))
+        }).catch(errHandler)
+    },
 }
 
 module.exports = Portfolio

@@ -40,7 +40,7 @@ router.get('/debtWithoutPayment/', async (req, res) => {
         response :  rez
     });
 });
-router.get('/PortfolioEfficiency/', async (req, res) => {
+router.get('/portfolioEfficiency/', async (req, res) => {
     let rez = await Debt.getPortfolioEfficiency();
     res.status(200).json({
         success : true,
