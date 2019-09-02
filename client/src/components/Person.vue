@@ -54,8 +54,9 @@ export default {
                 this.save(e.target.value, e.target.id)
         }, 2000),
         save: async function(value, id) {
-            let res = await this.$http.post(
-                `/api/person/update/${id}/fio/${value}`
+            let res = await this.$http.put(
+                `/api/person/${id}`,
+                {fio: value}
             );
             if (res.data.success) {
                 if (this.$refs.fade.classList.contains('save-text_fade')) {
