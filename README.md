@@ -107,11 +107,11 @@ Cal_date     |
 <h4>Запросы для проверки задания </h4>
 
 <p>Запрос для получения ответа по Требованию № 1 <br>
-<code>http://92.255.68.242:5000/api/person/debtor/150</code>
+<code>http://92.255.68.242:5001/api/person/debtor/150</code>
 </p>
 
 <p>Запрос для получения ответа по Требованию № 2 <br>
-<code>http://92.255.68.242:5000/api/portfolio/SumByMonth</code>
+<code>http://92.255.68.242:5001/api/portfolio/SumByMonth</code>
 </p>
 
 <p>Запрос для получения ответа по Требованию № 3 <br>
@@ -123,6 +123,6 @@ Cal_date     |
 </p>
 
 <p>Запрос для получения ответа по Требованию № 5 <br>
-<code>http://92.255.68.242:5000/api/debt/debtWithoutPayment/</code>
+<code>http://92.255.68.242:5001/api/debt/debtWithoutPayment/</code>
 </p>
 
